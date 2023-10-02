@@ -14,27 +14,26 @@ import {
   Button,
   Flex,
   Spinner,
-  Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
 
-const Announces = () => {
-  const { adminAnnounceService } = useService();
+const Lessons = () => {
+  const { adminLessonService } = useService();
   const navigate = useNavigate();
   const [data, setData] = React.useState([]);
 
-  const { isLoading } = useQuery(QueryKeys.getAllAnnounces, () => {
-    adminAnnounceService.getAnnouncesAll().then((data) => setData(data.data));
+  const { isLoading, isRefetching } = useQuery(QueryKeys.getAllLessons, () => {
+    adminLessonService.getLessonsAll().then((data) => setData(data.data));
   });
 
-  const { mutateAsync: mutateDeleteAnnounce } = useMutation((id) =>
-    adminAnnounceService.deleteAnnounceById(id)
+  const { mutateAsync: mutateDeleteLesson } = useMutation((id) =>
+    adminLessonService.deleteLessonById(id)
   );
 
-  const handleNavigation = () => navigate(ROUTES.ADMIN.ANNOUNCE.NEW_ANNOUNCE);
+  const handleNavigation = () => navigate(ROUTES.ADMIN.LESSON.NEW_LESSON);
 
-  const handleDeleteAnnounce = (id) => {
+  const handleDeleteLesson = (id) => {
     Swal.fire({
       title: "Silmək istədiyinizdən əminsiniz ?",
       text: "Dəyişikliklər yaddaşda saxlanılmayacağ !",
@@ -46,7 +45,7 @@ const Announces = () => {
       cancelButtonText: "Ləğv et",
     }).then((result) => {
       if (result.isConfirmed) {
-        mutateDeleteAnnounce(id)
+        mutateDeleteLesson(id)
           .then(() => {
             return Swal.fire({
               position: "center",
@@ -67,6 +66,12 @@ const Announces = () => {
     });
   };
 
+  const handleEditLesson = (id, name, facultyId) => {
+    navigate(ROUTES.ADMIN.LESSON.EDIT_LESSON, {
+      state: { id: id, name: name, facultyId: facultyId },
+    });
+  };
+
   if (isLoading) {
     return (
       <Spinner
@@ -83,7 +88,7 @@ const Announces = () => {
     <div>
       <Flex>
         <Button colorScheme="blue" onClick={() => handleNavigation()}>
-          Elan Yarat
+          Dərs Yarat
         </Button>
       </Flex>
       <TableContainer>
@@ -91,28 +96,29 @@ const Announces = () => {
           <Thead>
             <Tr>
               <Th>Id</Th>
-              <Th>Başlıq</Th>
-              <Th>Məlumat</Th>
-              <Th>Tarix</Th>
-              <Th>Operation</Th>
+              <Th>Dərs</Th>
+              <Th>Fakültə İd</Th>
             </Tr>
           </Thead>
           <Tbody>
             {data.length > 0
-              ? data.map(({ id, headerInfo, date, mainInfo }) => (
+              ? data.map(({ id, name, facultyId }) => (
                   <Tr key={id}>
                     <Td>{id}</Td>
-                    <Td>{headerInfo}</Td>
-                    <Td><Text>
-                    {mainInfo}
-                      </Text></Td>
-                    <Td>{date}</Td>
+                    <Td>{name}</Td>
+                    <Td>{facultyId}</Td>
                     <Td>
                       <Button
                         colorScheme="red"
-                        onClick={() => handleDeleteAnnounce(id)}
+                        onClick={() => handleDeleteLesson(id)}
                       >
                         Silmək
+                      </Button>
+                      <Button
+                        colorScheme="orange"
+                        onClick={() => handleEditLesson(id, name, facultyId)}
+                      >
+                        Edit
                       </Button>
                     </Td>
                   </Tr>
@@ -125,4 +131,4 @@ const Announces = () => {
   );
 };
 
-export default Announces;
+export default Lessons;

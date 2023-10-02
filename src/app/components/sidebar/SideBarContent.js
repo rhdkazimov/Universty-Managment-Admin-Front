@@ -7,20 +7,23 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
-  FiCompass,
   FiHome,
   FiSettings,
   FiStar,
-  FiTrendingUp,
+  FiUsers,
+  FiBell,
+  FiFileText,
+  FiFilter
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import Group from "../../group/Group";
-import { ROUTES } from "../../../Routes/consts";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, route: "/admin/home" },
-  { name: "Group", icon: FiStar, route: "/admin/groups" },
-  { name: "Settings", icon: FiSettings, route: "set" },
+  { name: "Group", icon: FiUsers, route: "/admin/groups" },
+  { name: "Elanlar", icon: FiBell, route: "/admin/announces" },
+  { name: "Dərslər", icon: FiFileText, route: "/admin/lessons" },
+  { name: "Types", icon: FiFilter, route: "/admin/types" },
+  { name: "Settings", icon: FiSettings, route: "/admin/settings" },
 ];
 
 export const SidebarContent = ({ onClose, ...rest }) => {

@@ -14,30 +14,32 @@ import { ROUTES } from "../../Routes/consts";
 import Swal from "sweetalert2";
 import { QueryKeys } from "../../consts";
 
-const NewGroup = () => {
-  const { adminSpecialtyService, adminGroupService } = useService();
+export const NewLesson = () => {
+  const { adminLessonService, adminFacultyService } = useService();
   const navigate = useNavigate();
-  const [specialty, setSpecialty] = React.useState([]);
-  const [newGroupFormData, setNewGroupFormData] = React.useState();
+  const [faculty, setFaculty] = React.useState([]);
+  const [newFormData, setNewFormData] = React.useState();
 
-  useQuery(QueryKeys.getAllSpecialtys, () => {
-    adminSpecialtyService
-      .getSpecialtyAll()
-      .then((data) => setSpecialty(data.data));
-  });
+  const { isLoading: isLoadingFaculty } = useQuery(
+    QueryKeys.getAllFacultys,
+    () => {
+      adminFacultyService
+        .getFacultysAll()
+        .then((data) => setFaculty(data.data));
+    }
+  );
 
-  const { mutateAsync: mutateNewGroup, isLoading } = useMutation((body) => {
-    console.log(newGroupFormData);
-    return adminGroupService.postNewGroup(body);
+  const { mutateAsync: mutateNewLesson, isLoading } = useMutation((body) => {
+    return adminLessonService.postNewLesson(body);
   });
 
   const handleOnChangeInput = ({ target: { value, name } }) =>
-    setNewGroupFormData((previous) => ({ ...previous, [name]: value }));
+    setNewFormData((previous) => ({ ...previous, [name]: value }));
 
   const handleOnSumbit = () =>
-    mutateNewGroup(newGroupFormData)
+    mutateNewLesson(newFormData)
       .then(() => {
-        navigate(ROUTES.ADMIN.GROUP);
+        navigate(ROUTES.ADMIN.LESSON.HOME);
       })
       .catch(() => {
         Swal.fire({
@@ -47,7 +49,7 @@ const NewGroup = () => {
         });
       });
 
-  if (isLoading) {
+  if (isLoading || isLoadingFaculty) {
     return (
       <Spinner
         thickness="4px"
@@ -61,25 +63,25 @@ const NewGroup = () => {
 
   return (
     <FormControl isRequired>
-      <FormLabel>GroupCode</FormLabel>
+      <FormLabel>Dərs Adı</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}
-        name="GroupCode"
-        placeholder="Group Code"
+        name="Name"
+        placeholder="Boş Buraxıla Bilmez"
       />
-      <FormLabel>Ixtisas</FormLabel>
+      <FormLabel>Fakültə</FormLabel>
       <Select
-        name="SpecialtyId"
+        name="FacultyId"
         onChange={(e) => handleOnChangeInput(e)}
-        placeholder="Select Specialty"
+        placeholder="Fakültə Seçin"
       >
-        {specialty.map((sp) => (
-          <option value={sp.id}>{sp.name}</option>
+        {faculty.map(({ id, name }) => (
+          <option value={id}>{name}</option>
         ))}
       </Select>
-      <Button colorScheme='blue' onClick={handleOnSumbit}>Create</Button>
+      <Button colorScheme="blue" onClick={handleOnSumbit}>
+        Create
+      </Button>
     </FormControl>
   );
 };
-
-export default NewGroup;

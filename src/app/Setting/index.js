@@ -14,27 +14,26 @@ import {
   Button,
   Flex,
   Spinner,
-  Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
 
-const Announces = () => {
-  const { adminAnnounceService } = useService();
+export const Settings = () => {
+  const { adminSettingService } = useService();
   const navigate = useNavigate();
   const [data, setData] = React.useState([]);
 
-  const { isLoading } = useQuery(QueryKeys.getAllAnnounces, () => {
-    adminAnnounceService.getAnnouncesAll().then((data) => setData(data.data));
+  const { isLoading, isRefetching } = useQuery(QueryKeys.getAllSettings, () => {
+    adminSettingService.getSettingsAll().then((data) => setData(data.data));
   });
 
-  const { mutateAsync: mutateDeleteAnnounce } = useMutation((id) =>
-    adminAnnounceService.deleteAnnounceById(id)
+  const { mutateAsync: mutateDeleteSetting } = useMutation((id) =>
+    adminSettingService.deleteSettingById(id)
   );
 
-  const handleNavigation = () => navigate(ROUTES.ADMIN.ANNOUNCE.NEW_ANNOUNCE);
+  const handleNavigation = () => navigate(ROUTES.ADMIN.SETTING.NEW_SETTING);
 
-  const handleDeleteAnnounce = (id) => {
+  const handleDeleteSetting = (id) => {
     Swal.fire({
       title: "Silmək istədiyinizdən əminsiniz ?",
       text: "Dəyişikliklər yaddaşda saxlanılmayacağ !",
@@ -46,7 +45,7 @@ const Announces = () => {
       cancelButtonText: "Ləğv et",
     }).then((result) => {
       if (result.isConfirmed) {
-        mutateDeleteAnnounce(id)
+        mutateDeleteSetting(id)
           .then(() => {
             return Swal.fire({
               position: "center",
@@ -67,6 +66,12 @@ const Announces = () => {
     });
   };
 
+  const handleEditSetting = (id, key, value) => {
+    navigate(ROUTES.ADMIN.SETTING.EDIT_SETTING, {
+      state: { id, key, value },
+    });
+  };
+
   if (isLoading) {
     return (
       <Spinner
@@ -83,7 +88,7 @@ const Announces = () => {
     <div>
       <Flex>
         <Button colorScheme="blue" onClick={() => handleNavigation()}>
-          Elan Yarat
+          Yenisini Əlavə et
         </Button>
       </Flex>
       <TableContainer>
@@ -91,28 +96,29 @@ const Announces = () => {
           <Thead>
             <Tr>
               <Th>Id</Th>
-              <Th>Başlıq</Th>
-              <Th>Məlumat</Th>
-              <Th>Tarix</Th>
-              <Th>Operation</Th>
+              <Th>Açar söz</Th>
+              <Th>Dəyər</Th>
             </Tr>
           </Thead>
           <Tbody>
             {data.length > 0
-              ? data.map(({ id, headerInfo, date, mainInfo }) => (
+              ? data.map(({ id, key, value }) => (
                   <Tr key={id}>
                     <Td>{id}</Td>
-                    <Td>{headerInfo}</Td>
-                    <Td><Text>
-                    {mainInfo}
-                      </Text></Td>
-                    <Td>{date}</Td>
+                    <Td>{key}</Td>
+                    <Td>{value}</Td>
                     <Td>
                       <Button
                         colorScheme="red"
-                        onClick={() => handleDeleteAnnounce(id)}
+                        onClick={() => handleDeleteSetting(id)}
                       >
                         Silmək
+                      </Button>
+                      <Button
+                        colorScheme="orange"
+                        onClick={() => handleEditSetting(id, key, value)}
+                      >
+                        Edit
                       </Button>
                     </Td>
                   </Tr>
@@ -124,5 +130,3 @@ const Announces = () => {
     </div>
   );
 };
-
-export default Announces;
