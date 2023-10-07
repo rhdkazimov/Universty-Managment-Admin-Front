@@ -1,6 +1,6 @@
 import React from "react";
 import { useService } from "../../API/Services";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKeys } from "../../consts";
 import Swal from "sweetalert2";
 import {
@@ -20,6 +20,7 @@ import { ROUTES } from "../../Routes/consts";
 const Group = () => {
   const { adminGroupService } = useService();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [groupsData, setGroupsData] = React.useState([]);
 
   const { isLoading, isRefetching } = useQuery(QueryKeys.getAllGroups, () => {
@@ -27,7 +28,7 @@ const Group = () => {
   });
 
   const { mutateAsync: mutateDeleteGroup } = useMutation((id) =>
-    adminGroupService.deleteGroupById(id)
+    adminGroupService.deleteGroupById(id),{onSuccess:()=>queryClient.invalidateQueries([QueryKeys.getAllGroups])}
   );
 
   const handleNavigation = () =>navigate(ROUTES.ADMIN.NEW_GROUP);

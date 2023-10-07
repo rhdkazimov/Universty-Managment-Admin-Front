@@ -1,6 +1,10 @@
 import React from "react";
 import { Button, Input } from "@chakra-ui/react";
 import "./index.scss";
+import { useService } from "../../API/Services";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../Routes/consts";
+import { useMutation } from "react-query";
 
 const initialValue = {
   Username: null,
@@ -10,11 +14,20 @@ const initialValue = {
 export const Login = () => {
   const [loginData, setLoginData] = React.useState(initialValue);
   const [isError, setIsError] = React.useState(false);
+  const { userAuthService } = useService();
+  const navigate = useNavigate();
 
   const handleOnChangeInput = ({ target: { value, name } }) =>
     setLoginData((previous) => ({ ...previous, [name]: value }));
 
-  const handleSumbitLoginData = () => {};
+  const { mutateAsync: mutateAdminLogin } = useMutation((requestBody) => {
+    userAuthService
+      .loginUser(requestBody)
+      .then(() => navigate(ROUTES.ADMIN.HOME))
+      .catch(() => setIsError(true));
+  });
+
+  const handleSumbitLoginData = () => mutateAdminLogin(loginData);
 
   return (
     <div className="loginBox">
@@ -24,11 +37,13 @@ export const Login = () => {
         )}
         <Input
           onChange={(e) => handleOnChangeInput(e)}
-          placeholder="Username"
+          name="mail"
+          placeholder="Mail"
           type="text"
         />
         <Input
           onChange={(e) => handleOnChangeInput(e)}
+          name="password"
           placeholder="Password"
           type="password"
         />

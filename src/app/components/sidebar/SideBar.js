@@ -8,7 +8,6 @@ import {
 } from '@chakra-ui/react'
 import { MobileNav } from './MobileNav'
 import { SidebarContent } from './SideBarContent'
-import Home from '../../Admin'
 
 const SidebarWithHeader = ({children}) => {
   const { isOpen, onOpen, onClose } = useDisclosure()

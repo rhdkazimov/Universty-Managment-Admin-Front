@@ -1,6 +1,6 @@
 import React from "react";
 import { useService } from "../../API/Services";
-import { useMutation, useQuery } from "react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKeys } from "../../consts";
 import Swal from "sweetalert2";
 import {
@@ -21,14 +21,15 @@ import { ROUTES } from "../../Routes/consts";
 export const Settings = () => {
   const { adminSettingService } = useService();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [data, setData] = React.useState([]);
 
-  const { isLoading, isRefetching } = useQuery(QueryKeys.getAllSettings, () => {
-    adminSettingService.getSettingsAll().then((data) => setData(data.data));
+  const { isLoading } = useQuery(QueryKeys.getAllSettings, () => {
+    adminSettingService.getSettingsAll().then((data) => setData(data.data)).catch((err)=>console.log(err));
   });
 
   const { mutateAsync: mutateDeleteSetting } = useMutation((id) =>
-    adminSettingService.deleteSettingById(id)
+    adminSettingService.deleteSettingById(id),{onSuccess:()=>queryClient.invalidateQueries([QueryKeys.getAllSettings])}
   );
 
   const handleNavigation = () => navigate(ROUTES.ADMIN.SETTING.NEW_SETTING);

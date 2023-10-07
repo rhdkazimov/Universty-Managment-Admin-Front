@@ -9,21 +9,22 @@ import {
 import {
   FiHome,
   FiSettings,
-  FiStar,
   FiUsers,
   FiBell,
   FiFileText,
-  FiFilter
+  FiFilter,
+  FiList
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, route: "/admin/home" },
-  { name: "Group", icon: FiUsers, route: "/admin/groups" },
+  { name: "Əsas Səhifə", icon: FiHome, route: "/admin/home" },
+  { name: "Qruplar", icon: FiUsers, route: "/admin/groups" },
+  { name: "Qrup Dərsləri", icon: FiList, route: "/admin/group-lessons" },
   { name: "Elanlar", icon: FiBell, route: "/admin/announces" },
   { name: "Dərslər", icon: FiFileText, route: "/admin/lessons" },
   { name: "Types", icon: FiFilter, route: "/admin/types" },
-  { name: "Settings", icon: FiSettings, route: "/admin/settings" },
+  { name: "Ayarlar", icon: FiSettings, route: "/admin/settings" },
 ];
 
 export const SidebarContent = ({ onClose, ...rest }) => {

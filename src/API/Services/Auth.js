@@ -2,11 +2,11 @@ import { HttpClient } from "../HTTPClients";
 
 export class AdminAuthService extends HttpClient {
   constructor() {
-    super("http://localhost:3001");
+    super("https://localhost:7046");
   }
 
   async loginUser(body) {
-    return await this.post(`login`, body).then(({ data }) => {
+    return await this. post(`api/user/admin/login`, body).then(({ data }) => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
     });

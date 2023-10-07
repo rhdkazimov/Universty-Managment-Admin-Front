@@ -1,6 +1,6 @@
 import React from "react";
 import { useService } from "../../API/Services";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKeys } from "../../consts";
 import Swal from "sweetalert2";
 import {
@@ -21,14 +21,15 @@ import { ROUTES } from "../../Routes/consts";
 export const Type = () => {
   const { adminTypeService } = useService();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [data, setData] = React.useState([]);
 
-  const { isLoading, isRefetching } = useQuery(QueryKeys.getAllTypes, () => {
+  const { isLoading } = useQuery(QueryKeys.getAllTypes, () => {
     adminTypeService.getTypesAll().then((data) => setData(data.data));
   });
 
   const { mutateAsync: mutateDeleteType } = useMutation((id) =>
-    adminTypeService.deleteTypeById(id)
+    adminTypeService.deleteTypeById(id),{onSuccess:()=>queryClient.invalidateQueries([QueryKeys.getAllTypes])}
   );
 
   const handleNavigation = () => navigate(ROUTES.ADMIN.TYPE.NEW_TYPE);

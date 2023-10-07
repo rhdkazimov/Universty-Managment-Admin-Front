@@ -14,31 +14,27 @@ import {
   Button,
   Flex,
   Spinner,
-  Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
 
-const Announces = () => {
-  const { adminAnnounceService } = useService();
+export const GroupLesson = () => {
+  const {adminGroupLessonService} = useService();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [data, setData] = React.useState([]);
 
-  const { isLoading } = useQuery(QueryKeys.getAllAnnounces, () => {
-    adminAnnounceService.getAnnouncesAll().then((data) => setData(data.data));
+  const { isLoading } = useQuery(QueryKeys.getAllGroupLesson, () => {
+    adminGroupLessonService.getAllGroupLessons().then((data) => setData(data.data));
   });
 
-  const { mutateAsync: mutateDeleteAnnounce } = useMutation(
-    (id) => adminAnnounceService.deleteAnnounceById(id),
-    {
-      onSuccess: () => queryClient.invalidateQueries([QueryKeys.getAllAnnounces]),
-    }
+  const { mutateAsync:mutateDeleteGroupLesson } = useMutation((id) =>
+  adminGroupLessonService.deleteGroupLessonById(id),{onSuccess:()=>queryClient.invalidateQueries([QueryKeys.getAllGroupLesson])}
   );
 
-  const handleNavigation = () => navigate(ROUTES.ADMIN.ANNOUNCE.NEW_ANNOUNCE);
+  const handleNavigation = () => navigate(ROUTES.ADMIN.GROUP_LESSON.NEW_GROUP_LESSON);
 
-  const handleDeleteAnnounce = (id) => {
+  const handleDeleteType = (id) => {
     Swal.fire({
       title: "Silmək istədiyinizdən əminsiniz ?",
       text: "Dəyişikliklər yaddaşda saxlanılmayacağ !",
@@ -50,7 +46,7 @@ const Announces = () => {
       cancelButtonText: "Ləğv et",
     }).then((result) => {
       if (result.isConfirmed) {
-        mutateDeleteAnnounce(id)
+        mutateDeleteGroupLesson(id)
           .then(() => {
             return Swal.fire({
               position: "center",
@@ -71,6 +67,12 @@ const Announces = () => {
     });
   };
 
+  const handleEditType = (id, name) => {
+    navigate(ROUTES.ADMIN.GROUP_LESSON.EDIT_GROUP_LESSON, {
+      state: { id, name },
+    });
+  };
+
   if (isLoading) {
     return (
       <Spinner
@@ -87,7 +89,7 @@ const Announces = () => {
     <div>
       <Flex>
         <Button colorScheme="blue" onClick={() => handleNavigation()}>
-          Elan Yarat
+          Yenisini Əlavə et
         </Button>
       </Flex>
       <TableContainer>
@@ -95,28 +97,31 @@ const Announces = () => {
           <Thead>
             <Tr>
               <Th>Id</Th>
-              <Th>Başlıq</Th>
-              <Th>Məlumat</Th>
-              <Th>Tarix</Th>
-              <Th>Operation</Th>
+              <Th>Qrup Kodu</Th>
+              <Th>Dərs Adı</Th>
+              <Th>Müəllim</Th>
             </Tr>
           </Thead>
           <Tbody>
             {data.length > 0
-              ? data.map(({ id, headerInfo, date, mainInfo }) => (
+              ? data.map(({ id, group:{groupCode},lesson:{name},teacher:{firstName,surName} }) => (
                   <Tr key={id}>
                     <Td>{id}</Td>
-                    <Td>{headerInfo}</Td>
-                    <Td>
-                      <Text>{mainInfo}</Text>
-                    </Td>
-                    <Td>{date}</Td>
+                    <Td>{groupCode}</Td>
+                    <Td>{name}</Td>
+                    <Td>{firstName+" "+surName}</Td>
                     <Td>
                       <Button
                         colorScheme="red"
-                        onClick={() => handleDeleteAnnounce(id)}
+                        onClick={() => handleDeleteType(id)}
                       >
                         Silmək
+                      </Button>
+                      <Button
+                        colorScheme="orange"
+                        onClick={() => handleEditType(id, name)}
+                      >
+                        Edit
                       </Button>
                     </Td>
                   </Tr>
@@ -128,5 +133,3 @@ const Announces = () => {
     </div>
   );
 };
-
-export default Announces;

@@ -19,6 +19,8 @@ import { EditSetting } from "../app/Setting/EditSetting";
 import { NewType } from "../app/Type/NewType";
 import { EditType } from "../app/Type/EditType";
 import { Type } from "../app/Type";
+import { GroupLesson } from "../app/GroupLesson";
+import { NewGroupLesson } from "../app/GroupLesson/NewGroupLesson";
 
 export const AppRoutes = () => {
   return (
@@ -167,6 +169,26 @@ export const AppRoutes = () => {
           <ProtectedRouter>
             <SidebarWithHeader>
               <EditType />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.GROUP_LESSON.HOME}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <GroupLesson />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+       <Route
+        path={ROUTES.ADMIN.GROUP_LESSON.NEW_GROUP_LESSON}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <NewGroupLesson />
             </SidebarWithHeader>
           </ProtectedRouter>
         }

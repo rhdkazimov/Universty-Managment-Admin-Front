@@ -23,5 +23,14 @@ export const ROUTES = {
       NEW_TYPE: "/admin/create/type",
       EDIT_TYPE: "/admin/edit/type",
     },
+    GROUP_LESSON:{
+      HOME:"/admin/group-lessons",
+      NEW_GROUP_LESSON:"/admin/create/group-lesson",
+      EDIT_GROUP_LESSON:"admin/edit/group-lesson"
+    },
+    TEACHER:{
+      HOME:"/admin/teachers",
+      NEW_TEACHER:"/admin/create/teacher",
+    }
   },
 };

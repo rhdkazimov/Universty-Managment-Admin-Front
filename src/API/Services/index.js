@@ -2,9 +2,11 @@ import { AdminAnnounceService } from "./Announce";
 import { AdminAuthService } from "./Auth";
 import { AdminFacultyService } from "./Faculty";
 import { AdminGroupService } from "./Group";
+import { AdminGroupLessonService } from "./GroupLesson";
 import { AdminLessonService } from "./Lesson";
 import { AdminSettingService } from "./Setting";
 import { AdminSpecialtyService } from "./Specialty";
+import { AdminTeacherService } from "./Teacher";
 import { AdminTypeService } from "./Type";
 
 export const useService = () => {
@@ -16,7 +18,9 @@ export const useService = () => {
     adminLessonService: new AdminLessonService(),
     adminFacultyService : new AdminFacultyService(),
     adminSettingService : new AdminSettingService(),
-    adminTypeService : new AdminTypeService(  )
+    adminTypeService : new AdminTypeService(),
+    adminGroupLessonService: new AdminGroupLessonService(),
+    adminTeacherService:new AdminTeacherService()
   };
 
   return services;

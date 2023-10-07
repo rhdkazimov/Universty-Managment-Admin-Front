@@ -1,6 +1,6 @@
 import React from "react";
 import { useService } from "../../API/Services";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKeys } from "../../consts";
 import Swal from "sweetalert2";
 import {
@@ -22,13 +22,15 @@ const Lessons = () => {
   const { adminLessonService } = useService();
   const navigate = useNavigate();
   const [data, setData] = React.useState([]);
+  const queryClient = useQueryClient();
+
 
   const { isLoading, isRefetching } = useQuery(QueryKeys.getAllLessons, () => {
     adminLessonService.getLessonsAll().then((data) => setData(data.data));
   });
 
   const { mutateAsync: mutateDeleteLesson } = useMutation((id) =>
-    adminLessonService.deleteLessonById(id)
+    adminLessonService.deleteLessonById(id),{onSuccess:()=>queryClient.invalidateQueries([QueryKeys.getAllLessons])}
   );
 
   const handleNavigation = () => navigate(ROUTES.ADMIN.LESSON.NEW_LESSON);

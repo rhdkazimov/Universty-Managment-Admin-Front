@@ -2,6 +2,9 @@ import { Avatar, Box, Flex, HStack, IconButton, Menu, MenuButton, MenuDivider, M
 import { FiBell,FiChevronDown, FiMenu } from "react-icons/fi"
 
 export const MobileNav = ({ onOpen, ...rest }) => {
+
+  const {userName} = JSON.parse(localStorage.getItem("user")); 
+
     return (
       <Flex
         ml={{ base: 0, md: 60 }}
@@ -46,10 +49,7 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                     alignItems="flex-start"
                     spacing="1px"
                     ml="2">
-                    <Text fontSize="sm">Justina Clark</Text>
-                    <Text fontSize="xs" color="gray.600">
-                      Admin
-                    </Text>
+                    <Text fontSize="sm">{userName}</Text>
                   </VStack>
                   <Box display={{ base: 'none', md: 'flex' }}>
                     <FiChevronDown />

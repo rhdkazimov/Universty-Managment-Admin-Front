@@ -5,5 +5,7 @@ export const QueryKeys = {
     getAllSpecialtys : "getAllSpecialtys",
     getAllFacultys : "getAllFacultys",
     getAllSettings : "getAllSettings",
-    getAllTypes : "getAllTypes"
+    getAllTypes : "getAllTypes",
+    getAllGroupLesson : "getAllGroupLesson",
+    getAllTeacher:"getAllTeacher"
 }
