@@ -13,30 +13,40 @@ import {
   TableContainer,
   Button,
   Flex,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
 
-const Group = () => {
-  const { adminGroupService } = useService();
+export const Specialty = () => {
+  const { adminSpecialtyService } = useService();
   const navigate = useNavigate();
+  const [data, setData] = React.useState([]);
   const queryClient = useQueryClient();
-  const [groupsData, setGroupsData] = React.useState([]);
 
-  const { isLoading, isRefetching } = useQuery(QueryKeys.getAllGroups, () => {
-    adminGroupService.getGroupsAll().then((data) => setGroupsData(data.data));
-  });
-
-  const { mutateAsync: mutateDeleteGroup } = useMutation((id) =>
-    adminGroupService.deleteGroupById(id),{onSuccess:()=>queryClient.invalidateQueries([QueryKeys.getAllGroups])}
+  const { isLoading, isRefetching } = useQuery(
+    QueryKeys.getAllSpecialtys,
+    () => {
+      adminSpecialtyService
+        .getSpecialtyAll()
+        .then((data) => setData(data.data));
+    }
   );
 
-  const handleNavigation = () =>navigate(ROUTES.ADMIN.NEW_GROUP);
+  const { mutateAsync: mutateDeleteSpecialty } = useMutation(
+    (id) => adminSpecialtyService.deleteSpecialtyById(id),
+    {
+      onSuccess: () =>
+        queryClient.invalidateQueries([QueryKeys.getAllSpecialtys]),
+    }
+  );
 
-  const handleDeleteGroup = (id) => {
+  const handleNavigation = () => navigate(ROUTES.ADMIN.SPECIALTY.NEW_SPECIALTY);
+
+  const handleDeleteLesson = (id) => {
     Swal.fire({
-      title: "Qrupu silmək istədiyinizdən əminsiniz ?",
+      title: "Silmək istədiyinizdən əminsiniz ?",
       text: "Dəyişikliklər yaddaşda saxlanılmayacağ !",
       icon: "warning",
       showCancelButton: true,
@@ -46,12 +56,12 @@ const Group = () => {
       cancelButtonText: "Ləğv et",
     }).then((result) => {
       if (result.isConfirmed) {
-        mutateDeleteGroup(id)
+        mutateDeleteSpecialty(id)
           .then(() => {
             return Swal.fire({
               position: "center",
               icon: "success",
-              title: "Qrup Silindi",
+              title: "Silindi",
               showConfirmButton: false,
               timer: 1500,
             });
@@ -60,54 +70,74 @@ const Group = () => {
             return Swal.fire({
               icon: "error",
               title: "Xəta baş verdi",
-              text: "Qrup silinmədi ! Daha sonra yenidən cəhd edin",
+              text: "Silinmədi ! Daha sonra yenidən cəhd edin",
             });
           });
       } else return null;
     });
   };
 
+  const handleEditLesson = (id, name, facultyId) => {
+    navigate(ROUTES.ADMIN.SPECIALTY.EDIT_SPECIALTY, {
+      state: { id, name, facultyId },
+    });
+  };
+
   if (isLoading) {
-    return "....loading";
+    return (
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    );
   }
 
   return (
     <div>
-      <Text as='b' fontSize='3xl'>Qruplar </Text>
+      <Text as="b" fontSize="3xl">
+        Ixtisaslar
+      </Text>
       <Flex>
-        <Button colorScheme="blue" onClick={()=>handleNavigation()}>Qrup Yarat</Button>
+        <Button colorScheme="blue" onClick={() => handleNavigation()}>
+          Ixtisas Yarat
+        </Button>
       </Flex>
       <TableContainer>
         <Table variant="striped" colorScheme="teal">
           <Thead>
             <Tr>
               <Th>Id</Th>
-              <Th>Kod</Th>
-              <Th>Tələbə</Th>
-              <Th>İxstisas</Th>
-              <Th>Operation</Th>
+              <Th>Ixtisas</Th>
+              <Th>Fakültə</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {groupsData.length > 0
-              ? groupsData.map(
+            {data.length > 0
+              ? data.map(
                   ({
                     id,
-                    groupCode,
-                    studentsCount,
-                    specialty: { id: specialtyId, name, facultyId },
+                    name,
+                    faculty: { name: facultyName, id: facultyId },
                   }) => (
                     <Tr key={id}>
                       <Td>{id}</Td>
-                      <Td>{groupCode}</Td>
-                      <Td>{studentsCount}</Td>
                       <Td>{name}</Td>
+                      <Td>{facultyName}</Td>
                       <Td>
                         <Button
                           colorScheme="red"
-                          onClick={() => handleDeleteGroup(id)}
+                          onClick={() => handleDeleteLesson(id)}
                         >
                           Silmək
+                        </Button>
+                        <Button
+                          colorScheme="orange"
+                          onClick={() => handleEditLesson(id, name, facultyId)}
+                        >
+                          Edit
                         </Button>
                       </Td>
                     </Tr>
@@ -120,5 +150,3 @@ const Group = () => {
     </div>
   );
 };
-
-export default Group;

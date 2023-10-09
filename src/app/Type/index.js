@@ -14,6 +14,7 @@ import {
   Button,
   Flex,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
@@ -28,8 +29,9 @@ export const Type = () => {
     adminTypeService.getTypesAll().then((data) => setData(data.data));
   });
 
-  const { mutateAsync: mutateDeleteType } = useMutation((id) =>
-    adminTypeService.deleteTypeById(id),{onSuccess:()=>queryClient.invalidateQueries([QueryKeys.getAllTypes])}
+  const { mutateAsync: mutateDeleteType } = useMutation(
+    (id) => adminTypeService.deleteTypeById(id),
+    { onSuccess: () => queryClient.invalidateQueries([QueryKeys.getAllTypes]) }
   );
 
   const handleNavigation = () => navigate(ROUTES.ADMIN.TYPE.NEW_TYPE);
@@ -87,6 +89,9 @@ export const Type = () => {
 
   return (
     <div>
+      <Text as="b" fontSize="3xl">
+        Yeni tip əlavə et
+      </Text>
       <Flex>
         <Button colorScheme="blue" onClick={() => handleNavigation()}>
           Yenisini Əlavə et

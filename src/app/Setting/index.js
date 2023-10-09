@@ -14,6 +14,7 @@ import {
   Button,
   Flex,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
@@ -87,6 +88,7 @@ export const Settings = () => {
 
   return (
     <div>
+      <Text as='b' fontSize='3xl'>Ayarlar</Text>
       <Flex>
         <Button colorScheme="blue" onClick={() => handleNavigation()}>
           Yenisini Əlavə et

@@ -9,6 +9,14 @@ export class AdminSpecialtyService extends HttpClient {
     return await this.get(`api/specialty/all`)
   }
 
+  async postNewSpecialty(body){
+    return await this.post(`api/specialty`,body)
+  }
+
+  async editSpecialtyById(id,body){
+    return await this.put(`api/specialty/${id}`,body)
+  }
+
   async deleteSpecialtyById(id){
     return await this.delete(`api/specialty/${id}`)
   }

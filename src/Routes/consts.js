@@ -26,11 +26,16 @@ export const ROUTES = {
     GROUP_LESSON:{
       HOME:"/admin/group-lessons",
       NEW_GROUP_LESSON:"/admin/create/group-lesson",
-      EDIT_GROUP_LESSON:"admin/edit/group-lesson"
+      EDIT_GROUP_LESSON:"/admin/edit/group-lesson"
     },
     TEACHER:{
       HOME:"/admin/teachers",
       NEW_TEACHER:"/admin/create/teacher",
+    },
+    SPECIALTY:{
+      HOME:"/admin/specialtys",
+      NEW_SPECIALTY:"/admin/create/specialty",
+      EDIT_SPECIALTY:"admin/edit/specialty"
     }
   },
 };

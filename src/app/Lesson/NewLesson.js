@@ -5,6 +5,7 @@ import {
   Select,
   Button,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { useService } from "../../API/Services";
@@ -63,10 +64,19 @@ export const NewLesson = () => {
 
   return (
     <FormControl isRequired>
+      <Text as="b" fontSize="3xl">
+        Yeni dərs yarat
+      </Text>
       <FormLabel>Dərs Adı</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}
         name="Name"
+        placeholder="Boş Buraxıla Bilmez"
+      />
+      <FormLabel>Dərs Saati</FormLabel>
+      <Input
+        onChange={(e) => handleOnChangeInput(e)}
+        name="Hours"
         placeholder="Boş Buraxıla Bilmez"
       />
       <FormLabel>Fakültə</FormLabel>

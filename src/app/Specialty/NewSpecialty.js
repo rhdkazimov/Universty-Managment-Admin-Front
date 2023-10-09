@@ -2,6 +2,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
   Button,
   Spinner,
   Text,
@@ -9,32 +10,37 @@ import {
 import React from "react";
 import { useService } from "../../API/Services";
 import { useMutation, useQuery } from "react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
 import Swal from "sweetalert2";
+import { QueryKeys } from "../../consts";
 
-export const EditType = () => {
-  const location = useLocation();
-  const initalEditInputValue = {
-    name: location.state.name,
-  };
-
-  const { adminTypeService } = useService();
+export const NewSpecilty = () => {
+  const { adminSpecialtyService, adminFacultyService } = useService();
   const navigate = useNavigate();
-  const [newFormData, setNewFormData] = React.useState(initalEditInputValue);
+  const [newFormData, setNewFormData] = React.useState();
+  const [faculty, setFaculty] = React.useState([]);
 
-  console.log(newFormData);
-  const { mutateAsync: mutateEditType, isLoading } = useMutation((body) => {
-    return adminTypeService.editTypeById(location.state.id, body);
+  const { isLoading: isFacultyLoading } = useQuery(
+    [QueryKeys.getAllFacultys],
+    () => {
+      adminFacultyService
+        .getFacultysAll()
+        .then((data) => setFaculty(data.data));
+    }
+  );
+
+  const { mutateAsync: mutateNewSpecialty, isLoading } = useMutation((body) => {
+    return adminSpecialtyService.postNewSpecialty(body);
   });
 
   const handleOnChangeInput = ({ target: { value, name } }) =>
     setNewFormData((previous) => ({ ...previous, [name]: value }));
 
   const handleOnSumbit = () =>
-    mutateEditType(newFormData)
+    mutateNewSpecialty(newFormData)
       .then(() => {
-        navigate(ROUTES.ADMIN.TYPE.HOME);
+        navigate(ROUTES.ADMIN.SPECIALTY.HOME);
       })
       .catch(() => {
         Swal.fire({
@@ -44,7 +50,7 @@ export const EditType = () => {
         });
       });
 
-  if (isLoading) {
+  if (isLoading || isFacultyLoading) {
     return (
       <Spinner
         thickness="4px"
@@ -59,17 +65,26 @@ export const EditType = () => {
   return (
     <FormControl isRequired>
       <Text as="b" fontSize="3xl">
-        Tip Düzəliş et
+        Yeni Ixtisas yarat
       </Text>
-      <FormLabel>Ad</FormLabel>
+      <FormLabel>Ixtisas adı</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}
         name="name"
-        defaultValue={location.state.name}
         placeholder="Boş Buraxıla Bilmez"
       />
+      <FormLabel>Dəyər</FormLabel>
+      <Select
+        name="FacultyId"
+        onChange={(e) => handleOnChangeInput(e)}
+        placeholder="Fakültə Seçin"
+      >
+        {faculty.map(({ id, name }) => (
+          <option value={id}>{name}</option>
+        ))}
+      </Select>
       <Button colorScheme="blue" onClick={handleOnSumbit}>
-        Yaddaşda Saxla
+        Create
       </Button>
     </FormControl>
   );

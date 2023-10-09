@@ -21,6 +21,9 @@ import { EditType } from "../app/Type/EditType";
 import { Type } from "../app/Type";
 import { GroupLesson } from "../app/GroupLesson";
 import { NewGroupLesson } from "../app/GroupLesson/NewGroupLesson";
+import { EditGroupLesson } from "../app/GroupLesson/EditGroupLesson";
+import { Specialty } from "../app/Specialty";
+import { NewSpecilty } from "../app/Specialty/NewSpecialty";
 
 export const AppRoutes = () => {
   return (
@@ -103,7 +106,7 @@ export const AppRoutes = () => {
           </ProtectedRouter>
         }
       />
-       <Route
+      <Route
         path={ROUTES.ADMIN.LESSON.EDIT_LESSON}
         element={
           <ProtectedRouter>
@@ -183,12 +186,42 @@ export const AppRoutes = () => {
           </ProtectedRouter>
         }
       />
-       <Route
+      <Route
         path={ROUTES.ADMIN.GROUP_LESSON.NEW_GROUP_LESSON}
         element={
           <ProtectedRouter>
             <SidebarWithHeader>
               <NewGroupLesson />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.GROUP_LESSON.EDIT_GROUP_LESSON}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <EditGroupLesson />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.SPECIALTY.HOME}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <Specialty />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.SPECIALTY.NEW_SPECIALTY}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <NewSpecilty />
             </SidebarWithHeader>
           </ProtectedRouter>
         }

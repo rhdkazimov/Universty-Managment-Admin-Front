@@ -13,7 +13,8 @@ import {
   FiBell,
   FiFileText,
   FiFilter,
-  FiList
+  FiList,
+  FiAward
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -23,6 +24,7 @@ const LinkItems = [
   { name: "Qrup Dərsləri", icon: FiList, route: "/admin/group-lessons" },
   { name: "Elanlar", icon: FiBell, route: "/admin/announces" },
   { name: "Dərslər", icon: FiFileText, route: "/admin/lessons" },
+  { name: "İxtisaslar", icon: FiAward, route: "/admin/specialtys" },
   { name: "Types", icon: FiFilter, route: "/admin/types" },
   { name: "Ayarlar", icon: FiSettings, route: "/admin/settings" },
 ];

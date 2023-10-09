@@ -14,6 +14,7 @@ import {
   Button,
   Flex,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
@@ -67,9 +68,9 @@ export const GroupLesson = () => {
     });
   };
 
-  const handleEditType = (id, name) => {
+  const handleEditType = (id,groupId,lessonId,teacherId) => {
     navigate(ROUTES.ADMIN.GROUP_LESSON.EDIT_GROUP_LESSON, {
-      state: { id, name },
+      state: { id,groupId,lessonId,teacherId },
     });
   };
 
@@ -87,6 +88,7 @@ export const GroupLesson = () => {
 
   return (
     <div>
+      <Text as='b' fontSize='3xl'>Qrup Dərsləri </Text>
       <Flex>
         <Button colorScheme="blue" onClick={() => handleNavigation()}>
           Yenisini Əlavə et
@@ -104,7 +106,7 @@ export const GroupLesson = () => {
           </Thead>
           <Tbody>
             {data.length > 0
-              ? data.map(({ id, group:{groupCode},lesson:{name},teacher:{firstName,surName} }) => (
+              ? data.map(({ id, group:{id:groupId,groupCode},lesson:{id:lessonId,name},teacher:{id:teacherId,firstName,surName} }) => (
                   <Tr key={id}>
                     <Td>{id}</Td>
                     <Td>{groupCode}</Td>
@@ -119,7 +121,7 @@ export const GroupLesson = () => {
                       </Button>
                       <Button
                         colorScheme="orange"
-                        onClick={() => handleEditType(id, name)}
+                        onClick={() => handleEditType(id,groupId,lessonId,teacherId)}
                       >
                         Edit
                       </Button>

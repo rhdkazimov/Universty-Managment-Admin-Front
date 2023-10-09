@@ -1,7 +1,6 @@
 import {
   FormControl,
   FormLabel,
-  Input,
   Select,
   Button,
   Spinner,
@@ -10,23 +9,33 @@ import {
 import React from "react";
 import { useService } from "../../API/Services";
 import { useMutation, useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
 import Swal from "sweetalert2";
 import { QueryKeys } from "../../consts";
 
-export const NewGroupLesson = () => {
+export const EditGroupLesson = () => {
+  const location = useLocation();
+
+  const initialEditGroupLessonValue = {
+    groupId: location.state.groupId,
+    lessonId: location.state.lessonId,
+    teacherId: location.state.teacherId,
+  };
+
   const {
     adminLessonService,
     adminGroupService,
-    adminGroupLessonService,
     adminTeacherService,
+    adminGroupLessonService,
   } = useService();
   const navigate = useNavigate();
   const [lesson, setLesson] = React.useState([]);
   const [teacher, setTeacher] = React.useState([]);
   const [group, setGroup] = React.useState([]);
-  const [newFormData, setNewFormData] = React.useState();
+  const [newFormData, setNewFormData] = React.useState(
+    initialEditGroupLessonValue
+  );
 
   const { isLoading: isLoadingGroup } = useQuery(QueryKeys.getAllGroups, () => {
     adminGroupService.getGroupsAll().then((data) => setGroup(data.data));
@@ -44,17 +53,15 @@ export const NewGroupLesson = () => {
     }
   );
 
-  const { mutateAsync: mutateNewGroupLesson, isLoading } = useMutation(
-    (body) => {
-      return adminGroupLessonService.postNewGroupLesson(body);
-    }
-  );
+  const { mutateAsync: mutateNewLesson, isLoading } = useMutation((body) => {
+    return adminGroupLessonService.editGroupLessonById(location.state.id, body);
+  });
 
   const handleOnChangeInput = ({ target: { value, name } }) =>
     setNewFormData((previous) => ({ ...previous, [name]: value }));
 
   const handleOnSumbit = () =>
-    mutateNewGroupLesson(newFormData)
+    mutateNewLesson(newFormData)
       .then(() => {
         navigate(ROUTES.ADMIN.GROUP_LESSON.HOME);
       })
@@ -77,18 +84,18 @@ export const NewGroupLesson = () => {
       />
     );
   }
-
   return (
     <FormControl isRequired>
-      <Text as='b' fontSize='3xl'>Yeni dərs əlavə et</Text>
+      <Text as='b' fontSize='3xl'>Qrup Dərslərini dəyiş  </Text>
       <FormLabel>Qrup</FormLabel>
       <Select
         name="GroupId"
         onChange={(e) => handleOnChangeInput(e)}
         placeholder="Qrup Seçin"
+        defaultValue={location.state.groupCode}
       >
         {group.map(({ id, groupCode }) => (
-          <option value={id}>{groupCode}</option>
+          <option selected={id===location.state.groupId&&true} value={id}>{groupCode}</option>
         ))}
       </Select>
       <FormLabel>Dərs</FormLabel>
@@ -98,7 +105,7 @@ export const NewGroupLesson = () => {
         placeholder="Dərsi Seçin"
       >
         {lesson.map(({ id, name }) => (
-          <option value={id}>{name}</option>
+          <option selected={name===location.state.name&&true} value={id}>{name}</option>
         ))}
       </Select>
       <FormLabel>Müəllim</FormLabel>
@@ -108,11 +115,11 @@ export const NewGroupLesson = () => {
         placeholder="Müəllim Seçin"
       >
         {teacher.map(({ id, firstName, surName }) => (
-          <option value={id}>{firstName + " " + surName}</option>
+          <option  selected={id===location.state.teacherId&&true} value={id}>{firstName + " " + surName}</option>
         ))}
       </Select>
       <Button colorScheme="blue" onClick={handleOnSumbit}>
-        Create
+        Yaddaşda Saxla
       </Button>
     </FormControl>
   );

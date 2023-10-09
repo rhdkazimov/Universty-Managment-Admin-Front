@@ -5,6 +5,7 @@ import {
   Select,
   Button,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { useService } from "../../API/Services";
@@ -61,6 +62,7 @@ const NewGroup = () => {
 
   return (
     <FormControl isRequired>
+      <Text as='b' fontSize='3xl'>Yeni Qrup Yarat </Text>
       <FormLabel>GroupCode</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}

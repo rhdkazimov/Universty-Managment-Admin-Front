@@ -85,6 +85,7 @@ const Announces = () => {
 
   return (
     <div>
+      <Text as='b' fontSize='3xl'>Elanlar </Text>
       <Flex>
         <Button colorScheme="blue" onClick={() => handleNavigation()}>
           Elan Yarat

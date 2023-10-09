@@ -4,6 +4,7 @@ import {
   Input,
   Button,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { useService } from "../../API/Services";
@@ -58,6 +59,7 @@ export const EditSetting = () => {
 
   return (
     <FormControl isRequired>
+      <Text as='b' fontSize='3xl'>Ayarlarda Düzəliş et</Text>
       <FormLabel>Açar söz</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}

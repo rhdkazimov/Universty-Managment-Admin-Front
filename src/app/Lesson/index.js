@@ -14,6 +14,7 @@ import {
   Button,
   Flex,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
@@ -68,9 +69,9 @@ const Lessons = () => {
     });
   };
 
-  const handleEditLesson = (id, name, facultyId) => {
+  const handleEditLesson = (id, name,hours, facultyId) => {
     navigate(ROUTES.ADMIN.LESSON.EDIT_LESSON, {
-      state: { id: id, name: name, facultyId: facultyId },
+      state: { id,name,hours,facultyId },
     });
   };
 
@@ -88,6 +89,7 @@ const Lessons = () => {
 
   return (
     <div>
+      <Text as='b' fontSize='3xl'>Dərslər</Text>
       <Flex>
         <Button colorScheme="blue" onClick={() => handleNavigation()}>
           Dərs Yarat
@@ -99,15 +101,17 @@ const Lessons = () => {
             <Tr>
               <Th>Id</Th>
               <Th>Dərs</Th>
+              <Th>Saat</Th>
               <Th>Fakültə İd</Th>
             </Tr>
           </Thead>
           <Tbody>
             {data.length > 0
-              ? data.map(({ id, name, facultyId }) => (
+              ? data.map(({ id, name,hours,facultyId }) => (
                   <Tr key={id}>
                     <Td>{id}</Td>
                     <Td>{name}</Td>
+                    <Td>{hours}</Td>
                     <Td>{facultyId}</Td>
                     <Td>
                       <Button
@@ -118,7 +122,7 @@ const Lessons = () => {
                       </Button>
                       <Button
                         colorScheme="orange"
-                        onClick={() => handleEditLesson(id, name, facultyId)}
+                        onClick={() => handleEditLesson(id, name,hours, facultyId)}
                       >
                         Edit
                       </Button>

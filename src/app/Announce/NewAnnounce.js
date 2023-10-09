@@ -5,6 +5,7 @@ import {
   Button,
   Spinner,
   Textarea,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { useService } from "../../API/Services";
@@ -51,7 +52,9 @@ const NewAnnounce = () => {
   }
 
   return (
+
     <FormControl isRequired>
+      <Text as='b' fontSize='3xl'>Yeni Elan Yarat </Text>
       <FormLabel>Başlıq</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}

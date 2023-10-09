@@ -5,6 +5,7 @@ import {
   Select,
   Button,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { useService } from "../../API/Services";
@@ -18,6 +19,7 @@ export const EditLesson = () => {
   const location = useLocation();
   const initialEditLessonValue = {
     name: location.state.name,
+    hours:location.state.hours,
     facultyId: location.state.facultyId,
   };
 
@@ -69,6 +71,7 @@ export const EditLesson = () => {
 
   return (
     <FormControl isRequired>
+      <Text as='b' fontSize='3xl'>Düzəliş et (Dərs)</Text>
       <FormLabel>Dərs Adı</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}
@@ -81,10 +84,9 @@ export const EditLesson = () => {
         name="facultyId"
         onChange={(e) => handleOnChangeInput(e)}
         placeholder="Fakültə Seçin"
-        // defaultValue={location.state.facultyId}
       >
         {faculty.map(({ id, name }) => (
-          <option value={id}>{name}</option>
+          <option selected={id==location.state.facultyId&&true} value={id}>{name}</option>
         ))}
       </Select>
       <Button colorScheme="blue" onClick={handleOnSumbit}>
