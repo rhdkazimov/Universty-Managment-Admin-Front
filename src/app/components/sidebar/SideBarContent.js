@@ -14,7 +14,8 @@ import {
   FiFileText,
   FiFilter,
   FiList,
-  FiAward
+  FiAward,
+  FiBook,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -25,6 +26,7 @@ const LinkItems = [
   { name: "Elanlar", icon: FiBell, route: "/admin/announces" },
   { name: "Dərslər", icon: FiFileText, route: "/admin/lessons" },
   { name: "İxtisaslar", icon: FiAward, route: "/admin/specialtys" },
+  { name: "Fakültələr", icon: FiBook, route: "/admin/facultys" },
   { name: "Types", icon: FiFilter, route: "/admin/types" },
   { name: "Ayarlar", icon: FiSettings, route: "/admin/settings" },
 ];
@@ -85,7 +87,7 @@ export const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <Link key={link.name} to={link.route} >
+        <Link key={link.name} to={link.route}>
           <NavItem icon={link.icon}>{link.name}</NavItem>
         </Link>
       ))}

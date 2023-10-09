@@ -23,19 +23,24 @@ export const ROUTES = {
       NEW_TYPE: "/admin/create/type",
       EDIT_TYPE: "/admin/edit/type",
     },
-    GROUP_LESSON:{
-      HOME:"/admin/group-lessons",
-      NEW_GROUP_LESSON:"/admin/create/group-lesson",
-      EDIT_GROUP_LESSON:"/admin/edit/group-lesson"
+    GROUP_LESSON: {
+      HOME: "/admin/group-lessons",
+      NEW_GROUP_LESSON: "/admin/create/group-lesson",
+      EDIT_GROUP_LESSON: "/admin/edit/group-lesson",
     },
-    TEACHER:{
-      HOME:"/admin/teachers",
-      NEW_TEACHER:"/admin/create/teacher",
+    TEACHER: {
+      HOME: "/admin/teachers",
+      NEW_TEACHER: "/admin/create/teacher",
     },
-    SPECIALTY:{
-      HOME:"/admin/specialtys",
-      NEW_SPECIALTY:"/admin/create/specialty",
-      EDIT_SPECIALTY:"/admin/edit/specialty"
-    }
+    SPECIALTY: {
+      HOME: "/admin/specialtys",
+      NEW_SPECIALTY: "/admin/create/specialty",
+      EDIT_SPECIALTY: "/admin/edit/specialty",
+    },
+    FACULTY: {
+      HOME: "/admin/facultys",
+      NEW_FACULTY: "/admin/create/faculty",
+      EDIT_FACULTY: "/admin/edit/faculty",
+    },
   },
 };

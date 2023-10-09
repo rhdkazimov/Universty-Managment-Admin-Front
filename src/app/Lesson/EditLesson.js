@@ -19,7 +19,7 @@ export const EditLesson = () => {
   const location = useLocation();
   const initialEditLessonValue = {
     name: location.state.name,
-    hours:location.state.hours,
+    hours: location.state.hours,
     facultyId: location.state.facultyId,
   };
 
@@ -71,7 +71,9 @@ export const EditLesson = () => {
 
   return (
     <FormControl isRequired>
-      <Text as='b' fontSize='3xl'>Düzəliş et (Dərs)</Text>
+      <Text as="b" fontSize="3xl">
+        Düzəliş et (Dərs)
+      </Text>
       <FormLabel>Dərs Adı</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}
@@ -86,7 +88,9 @@ export const EditLesson = () => {
         placeholder="Fakültə Seçin"
       >
         {faculty.map(({ id, name }) => (
-          <option selected={id==location.state.facultyId&&true} value={id}>{name}</option>
+          <option selected={id == location.state.facultyId && true} value={id}>
+            {name}
+          </option>
         ))}
       </Select>
       <Button colorScheme="blue" onClick={handleOnSumbit}>

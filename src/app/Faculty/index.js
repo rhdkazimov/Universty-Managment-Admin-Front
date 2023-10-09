@@ -19,23 +19,29 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
 
-const Group = () => {
-  const { adminGroupService } = useService();
+export const Faculty = () => {
+  const { adminFacultyService } = useService();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [groupsData, setGroupsData] = React.useState([]);
+  const [facultysData, setFacultysData] = React.useState([]);
 
-  const { isLoading } = useQuery(QueryKeys.getAllGroups, () => {
-    adminGroupService.getGroupsAll().then((data) => setGroupsData(data.data));
+  const { isLoading } = useQuery(QueryKeys.getAllFacultys, () => {
+    adminFacultyService
+      .getFacultysAll()
+      .then((data) => setFacultysData(data.data));
   });
 
-  const { mutateAsync: mutateDeleteGroup } = useMutation((id) =>
-    adminGroupService.deleteGroupById(id),{onSuccess:()=>queryClient.invalidateQueries([QueryKeys.getAllGroups])}
+  const { mutateAsync: mutateDeleteFaculty } = useMutation(
+    (id) => adminFacultyService.deleteFacultyById(id),
+    {
+      onSuccess: () =>
+        queryClient.invalidateQueries([QueryKeys.getAllFacultys]),
+    }
   );
 
-  const handleNavigation = () =>navigate(ROUTES.ADMIN.NEW_GROUP);
+  const handleNavigation = () => navigate(ROUTES.ADMIN.FACULTY.NEW_FACULTY);
 
-  const handleDeleteGroup = (id) => {
+  const handleDeleteFaculty = (id) => {
     Swal.fire({
       title: "Qrupu silmək istədiyinizdən əminsiniz ?",
       text: "Dəyişikliklər yaddaşda saxlanılmayacağ !",
@@ -47,7 +53,7 @@ const Group = () => {
       cancelButtonText: "Ləğv et",
     }).then((result) => {
       if (result.isConfirmed) {
-        mutateDeleteGroup(id)
+        mutateDeleteFaculty(id)
           .then(() => {
             return Swal.fire({
               position: "center",
@@ -68,6 +74,12 @@ const Group = () => {
     });
   };
 
+  const handleEditFaculty = (id, name, code) => {
+    navigate(ROUTES.ADMIN.FACULTY.EDIT_FACULTY, {
+      state: { id, name, code },
+    });
+  };
+
   if (isLoading) {
     return (
       <Spinner
@@ -82,9 +94,13 @@ const Group = () => {
 
   return (
     <div>
-      <Text as='b' fontSize='3xl'>Qruplar </Text>
+      <Text as="b" fontSize="3xl">
+        Fakültələr
+      </Text>
       <Flex>
-        <Button colorScheme="blue" onClick={()=>handleNavigation()}>Qrup Yarat</Button>
+        <Button colorScheme="blue" onClick={() => handleNavigation()}>
+          Fakültə Yarat
+        </Button>
       </Flex>
       <TableContainer>
         <Table variant="striped" colorScheme="teal">
@@ -92,42 +108,38 @@ const Group = () => {
             <Tr>
               <Th>Id</Th>
               <Th>Kod</Th>
-              <Th>Tələbə</Th>
-              <Th>İxstisas</Th>
-              <Th>Operation</Th>
+              <Th>Adı</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {groupsData.length > 0
-              ? groupsData.map(
-                  ({
-                    id,
-                    groupCode,
-                    studentsCount,
-                    specialty: { id: specialtyId, name, facultyId },
-                  }) => (
-                    <Tr key={id}>
-                      <Td>{id}</Td>
-                      <Td>{groupCode}</Td>
-                      <Td>{studentsCount}</Td>
-                      <Td>{name}</Td>
-                      <Td>
-                        <Button
-                          colorScheme="red"
-                          onClick={() => handleDeleteGroup(id)}
-                        >
-                          Silmək
-                        </Button>
-                      </Td>
-                    </Tr>
-                  )
-                )
-              : "data yoxdur"}
+            {facultysData.length > 0 ? (
+              facultysData.map(({ id, name, code }) => (
+                <Tr key={id}>
+                  <Td>{id}</Td>
+                  <Td>{code}</Td>
+                  <Td>{name}</Td>
+                  <Td>
+                    <Button
+                      colorScheme="red"
+                      onClick={() => handleDeleteFaculty(id)}
+                    >
+                      Silmək
+                    </Button>
+                    <Button
+                      colorScheme="orange"
+                      onClick={() => handleEditFaculty(id, name, code)}
+                    >
+                      Edit
+                    </Button>
+                  </Td>
+                </Tr>
+              ))
+            ) : (
+              <h1>Data Yoxdur . . .</h1>
+            )}
           </Tbody>
         </Table>
       </TableContainer>
     </div>
   );
 };
-
-export default Group;

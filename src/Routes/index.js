@@ -25,6 +25,9 @@ import { EditGroupLesson } from "../app/GroupLesson/EditGroupLesson";
 import { Specialty } from "../app/Specialty";
 import { NewSpecilty } from "../app/Specialty/NewSpecialty";
 import { EditSpecialty } from "../app/Specialty/EditSpecialty";
+import { Faculty } from "../app/Faculty";
+import { NewFaculty } from "../app/Faculty/NewFaculty";
+import { EditFaculty } from "../app/Faculty/EditFaculty";
 
 export const AppRoutes = () => {
   return (
@@ -233,6 +236,36 @@ export const AppRoutes = () => {
           <ProtectedRouter>
             <SidebarWithHeader>
               <EditSpecialty />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.FACULTY.HOME}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <Faculty />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.FACULTY.NEW_FACULTY}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <NewFaculty />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.FACULTY.EDIT_FACULTY}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <EditFaculty />
             </SidebarWithHeader>
           </ProtectedRouter>
         }
