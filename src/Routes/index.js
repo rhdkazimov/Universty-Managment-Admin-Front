@@ -24,6 +24,7 @@ import { NewGroupLesson } from "../app/GroupLesson/NewGroupLesson";
 import { EditGroupLesson } from "../app/GroupLesson/EditGroupLesson";
 import { Specialty } from "../app/Specialty";
 import { NewSpecilty } from "../app/Specialty/NewSpecialty";
+import { EditSpecialty } from "../app/Specialty/EditSpecialty";
 
 export const AppRoutes = () => {
   return (
@@ -222,6 +223,16 @@ export const AppRoutes = () => {
           <ProtectedRouter>
             <SidebarWithHeader>
               <NewSpecilty />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.SPECIALTY.EDIT_SPECIALTY}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <EditSpecialty />
             </SidebarWithHeader>
           </ProtectedRouter>
         }

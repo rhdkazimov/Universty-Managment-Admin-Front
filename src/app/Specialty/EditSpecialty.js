@@ -2,40 +2,58 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
   Button,
   Spinner,
   Text,
+  Select,
 } from "@chakra-ui/react";
 import React from "react";
 import { useService } from "../../API/Services";
 import { useMutation, useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/consts";
 import Swal from "sweetalert2";
 import { QueryKeys } from "../../consts";
 
-export const NewSpecilty = () => {
+export const EditSpecialty = () => {
+  const location = useLocation();
+  const initalEditInputValue = {
+    name: location.state.name,
+    facultyId: location.state.facultyId,
+  };
+
   const { adminSpecialtyService, adminFacultyService } = useService();
   const navigate = useNavigate();
-  const [newFormData, setNewFormData] = React.useState();
+  const [newFormData, setNewFormData] = React.useState(initalEditInputValue);
   const [faculty, setFaculty] = React.useState([]);
 
   const { isLoading: isFacultyLoading } = useQuery(
     [QueryKeys.getAllFacultys],
     () =>
-      adminFacultyService.getFacultysAll().then((data) => setFaculty(data.data))
+      adminFacultyService
+        .getFacultysAll()
+        .then((data) => setFaculty(data.data))
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Xəta baş verdi",
+            text: "Daha sonra yenidən cəhd edin",
+          });
+          navigate(ROUTES.ADMIN.SPECIALTY.HOME);
+        })
   );
 
-  const { mutateAsync: mutateNewSpecialty, isLoading } = useMutation((body) => {
-    return adminSpecialtyService.postNewSpecialty(body);
-  });
+  const { mutateAsync: mutateEditSpecialty, isLoading } = useMutation(
+    (body) => {
+      return adminSpecialtyService.editSpecialtyById(location.state.id, body);
+    }
+  );
 
   const handleOnChangeInput = ({ target: { value, name } }) =>
     setNewFormData((previous) => ({ ...previous, [name]: value }));
 
   const handleOnSumbit = () =>
-    mutateNewSpecialty(newFormData)
+    mutateEditSpecialty(newFormData)
       .then(() => {
         navigate(ROUTES.ADMIN.SPECIALTY.HOME);
       })
@@ -62,12 +80,13 @@ export const NewSpecilty = () => {
   return (
     <FormControl isRequired>
       <Text as="b" fontSize="3xl">
-        Yeni Ixtisas yarat
+        Ixtisas Düzəliş et
       </Text>
-      <FormLabel>Ixtisas adı</FormLabel>
+      <FormLabel>İxtisas Adı</FormLabel>
       <Input
         onChange={(e) => handleOnChangeInput(e)}
         name="name"
+        defaultValue={location.state.name}
         placeholder="Boş Buraxıla Bilmez"
       />
       <FormLabel>Fakültə</FormLabel>
@@ -77,11 +96,13 @@ export const NewSpecilty = () => {
         placeholder="Fakültə Seçin"
       >
         {faculty.map(({ id, name }) => (
-          <option value={id}>{name}</option>
+          <option selected={id === location.state.facultyId} value={id}>
+            {name}
+          </option>
         ))}
       </Select>
       <Button colorScheme="blue" onClick={handleOnSumbit}>
-        Create
+        Yaddaşda Saxla
       </Button>
     </FormControl>
   );

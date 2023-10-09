@@ -23,7 +23,6 @@ export const EditType = () => {
   const navigate = useNavigate();
   const [newFormData, setNewFormData] = React.useState(initalEditInputValue);
 
-  console.log(newFormData);
   const { mutateAsync: mutateEditType, isLoading } = useMutation((body) => {
     return adminTypeService.editTypeById(location.state.id, body);
   });

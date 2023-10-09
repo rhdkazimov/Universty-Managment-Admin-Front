@@ -35,7 +35,7 @@ export const ROUTES = {
     SPECIALTY:{
       HOME:"/admin/specialtys",
       NEW_SPECIALTY:"/admin/create/specialty",
-      EDIT_SPECIALTY:"admin/edit/specialty"
+      EDIT_SPECIALTY:"/admin/edit/specialty"
     }
   },
 };
