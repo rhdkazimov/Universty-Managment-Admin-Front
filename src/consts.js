@@ -9,4 +9,5 @@ export const QueryKeys = {
   getAllGroupLesson: "getAllGroupLesson",
   getAllTeacher: "getAllTeacher",
   getAllStudent: "getAllStudent",
+  getStatisticUser: "getStatisticUser",
 };

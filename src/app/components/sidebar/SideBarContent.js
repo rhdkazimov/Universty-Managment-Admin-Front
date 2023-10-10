@@ -33,6 +33,7 @@ const LinkItems = [
   { name: "Fakültələr", icon: FiBook, route: "/admin/facultys" },
   { name: "Types", icon: FiFilter, route: "/admin/types" },
   { name: "Ayarlar", icon: FiSettings, route: "/admin/settings" },
+  // { name: "Admin yarat", icon: FiSettings, route: "/admin/create" },
 ];
 
 export const SidebarContent = ({ onClose, ...rest }) => {

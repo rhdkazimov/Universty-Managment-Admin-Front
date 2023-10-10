@@ -28,6 +28,27 @@
   color: #61dafb;
 }
 
+.dashboardInfo {
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  padding: 25px;
+  .asignedUserStats {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .studentBirthday-bar {
+    width: 50% !important;
+    height: 100% !important;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

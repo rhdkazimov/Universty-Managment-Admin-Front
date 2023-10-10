@@ -1,6 +1,7 @@
 export const ROUTES = {
   ADMIN: {
     LOGIN: "/admin",
+    CREATE_ADMIN: "/admin/create",
     HOME: "/admin/home",
     GROUP: "/admin/groups",
     NEW_GROUP: "/admin/create/group",

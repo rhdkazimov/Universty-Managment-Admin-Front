@@ -6,14 +6,18 @@ export class AdminAuthService extends HttpClient {
   }
 
   async loginUser(body) {
-    return await this. post(`api/user/admin/login`, body).then(({ data }) => {
+    return await this.post(`api/user/admin/login`, body).then(({ data }) => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
     });
   }
 
+  async createAdmin(body) {
+    return await this.post(`api/user/admin/register`, body);
+  }
+
   async logout() {
-    return await this.get("/logout").then(() => {
+    return await this.post("api/user/logout").then(() => {
       localStorage.clear();
     });
   }

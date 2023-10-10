@@ -32,6 +32,8 @@ import { Teachers } from "../app/Teacher";
 import { NewTeacher } from "../app/Teacher/NewTeacher";
 import { Students } from "../app/Student";
 import { NewStudent } from "../app/Student/NewStudent";
+import Dashboard from "../app/Admin";
+import { AddAdmin } from "../app/Admin/AddAdmin";
 
 export const AppRoutes = () => {
   return (
@@ -49,7 +51,17 @@ export const AppRoutes = () => {
         element={
           <ProtectedRouter>
             <SidebarWithHeader>
-              <Home />
+              <Dashboard />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.CREATE_ADMIN}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <AddAdmin />
             </SidebarWithHeader>
           </ProtectedRouter>
         }
