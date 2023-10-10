@@ -6,6 +6,7 @@ import { AdminGroupLessonService } from "./GroupLesson";
 import { AdminLessonService } from "./Lesson";
 import { AdminSettingService } from "./Setting";
 import { AdminSpecialtyService } from "./Specialty";
+import { AdminStudentService } from "./Student";
 import { AdminTeacherService } from "./Teacher";
 import { AdminTypeService } from "./Type";
 
@@ -20,7 +21,8 @@ export const useService = () => {
     adminSettingService : new AdminSettingService(),
     adminTypeService : new AdminTypeService(),
     adminGroupLessonService: new AdminGroupLessonService(),
-    adminTeacherService:new AdminTeacherService()
+    adminTeacherService:new AdminTeacherService(),
+    adminStudentService:new AdminStudentService()
   };
 
   return services;

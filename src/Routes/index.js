@@ -28,6 +28,10 @@ import { EditSpecialty } from "../app/Specialty/EditSpecialty";
 import { Faculty } from "../app/Faculty";
 import { NewFaculty } from "../app/Faculty/NewFaculty";
 import { EditFaculty } from "../app/Faculty/EditFaculty";
+import { Teachers } from "../app/Teacher";
+import { NewTeacher } from "../app/Teacher/NewTeacher";
+import { Students } from "../app/Student";
+import { NewStudent } from "../app/Student/NewStudent";
 
 export const AppRoutes = () => {
   return (
@@ -266,6 +270,46 @@ export const AppRoutes = () => {
           <ProtectedRouter>
             <SidebarWithHeader>
               <EditFaculty />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.TEACHER.HOME}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <Teachers />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.TEACHER.NEW_TEACHER}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <NewTeacher />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.STUDENT.HOME}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <Students />
+            </SidebarWithHeader>
+          </ProtectedRouter>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN.STUDENT.NEW_STUDENT}
+        element={
+          <ProtectedRouter>
+            <SidebarWithHeader>
+              <NewStudent />
             </SidebarWithHeader>
           </ProtectedRouter>
         }

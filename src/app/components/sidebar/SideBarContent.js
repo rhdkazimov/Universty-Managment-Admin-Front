@@ -16,11 +16,15 @@ import {
   FiList,
   FiAward,
   FiBook,
+  FiPenTool,
+  FiUserCheck,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const LinkItems = [
   { name: "Əsas Səhifə", icon: FiHome, route: "/admin/home" },
+  { name: "Müəllimlər", icon: FiPenTool, route: "/admin/teachers" },
+  { name: "Tələbələr", icon: FiUserCheck, route: "/admin/students" },
   { name: "Qruplar", icon: FiUsers, route: "/admin/groups" },
   { name: "Qrup Dərsləri", icon: FiList, route: "/admin/group-lessons" },
   { name: "Elanlar", icon: FiBell, route: "/admin/announces" },

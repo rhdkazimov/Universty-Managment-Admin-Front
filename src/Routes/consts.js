@@ -42,5 +42,9 @@ export const ROUTES = {
       NEW_FACULTY: "/admin/create/faculty",
       EDIT_FACULTY: "/admin/edit/faculty",
     },
+    STUDENT:{
+      HOME:"/admin/students",
+      NEW_STUDENT:"/admin/create/student"
+    }
   },
 };
