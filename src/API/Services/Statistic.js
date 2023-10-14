@@ -2,7 +2,8 @@ import { HttpClient } from "../HTTPClients";
 
 export class AdminStatisticService extends HttpClient {
   constructor() {
-    super("https://localhost:7046");
+    // super("https://localhost:7046");
+    super("https://http://kazimov11-001-site1.itempurl.com");
   }
 
   async getUsersCount() {
