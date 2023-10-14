@@ -326,6 +326,15 @@ export const AppRoutes = () => {
           </ProtectedRouter>
         }
       />
+      <Route
+      //for deploy run
+        path="*"
+        element={
+          <ProtectedLoginRouter>
+            <Login />
+          </ProtectedLoginRouter>
+        }
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
