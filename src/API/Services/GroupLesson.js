@@ -3,7 +3,8 @@ import { HttpClient } from "../HTTPClients";
 export class AdminGroupLessonService extends HttpClient {
   constructor() {
     // super("https://localhost:7046");
-    super("https://http://kazimov11-001-site1.itempurl.com");
+    super("http://kazimov11-001-site1.itempurl.com");
+
   }
 
   async getAllGroupLessons() {
