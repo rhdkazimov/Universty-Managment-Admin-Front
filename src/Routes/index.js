@@ -335,7 +335,7 @@ export const AppRoutes = () => {
           </ProtectedLoginRouter>
         }
       />
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
 };
